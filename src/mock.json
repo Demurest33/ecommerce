@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Blue shoes",
+      "price": 80.2,
+      "image": "https://imgur.com/QP8MY5j.png",
+      "description": "This are blue shoes",
+      "stock": 10
+    },
+    {
+      "id": 2,
+      "name": "Blue shoes",
+      "price": 80.2,
+      "image": "https://imgur.com/QP8MY5j.png",
+      "description": "This are blue shoes",
+      "stock": 10
+    },
+    {
+      "id": 3,
+      "name": "Blue shoes",
+      "price": 80.2,
+      "image": "https://imgur.com/QP8MY5j.png",
+      "description": "This are blue shoes",
+      "stock": 10
+    },
+    {
+      "id": 4,
+      "name": "Blue shoes",
+      "price": 80.2,
+      "image": "https://imgur.com/QP8MY5j.png",
+      "description": "This are blue shoes",
+      "stock": 10
+    },
+    {
+      "id": 5,
+      "name": "Blue shoes",
+      "price": 80.2,
+      "image": "https://imgur.com/QP8MY5j.png",
+      "description": "This are blue shoes",
+      "stock": 10
+    }
+  ]
+}
