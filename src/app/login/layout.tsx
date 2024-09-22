@@ -10,9 +10,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" data-theme="light">
-      <body>{children}</body>
-    </html>
-  );
+  return <main>{children}</main>;
 }
