@@ -189,8 +189,8 @@ export default function Navbar() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               {user && (
-                <li>
-                  <a className="justify-between">Hola, {user.name}</a>
+                <li className="text-lg font-semibold mb-2">
+                  Hola, {user.name}
                 </li>
               )}
 

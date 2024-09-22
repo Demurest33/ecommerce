@@ -5,9 +5,14 @@ import { getProducts } from "./services/productsService";
 import { Product } from "../types/Product";
 import { useState, useEffect } from "react";
 import ProductComponent from "@/components/Product";
+import useSocket from "@/app/services/useSocket";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
+
+  // WebSocket
+  const socket = useSocket();
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -17,6 +22,12 @@ export default function Home() {
       } catch (error) {
         console.error("Error fetching products:", error);
       }
+    }
+
+    if (socket) {
+      socket.on("mensaje", (msg) => {
+        console.log("Mensaje recibido del servidor:" + msg);
+      });
     }
 
     fetchProducts();
