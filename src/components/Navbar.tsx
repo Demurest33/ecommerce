@@ -93,10 +93,10 @@ export default function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Pedidos</a>
+            <Link href="/pedidos">Mis pedidos</Link>
           </li>
           <li>
-            <a>Perfil</a>
+            <Link href="/perfil">Mi perfil</Link>
           </li>
 
           {user?.role === "ADMIN" && (
@@ -191,7 +191,7 @@ export default function Navbar() {
               )}
 
               <li>
-                <a className="justify-between">Perfil</a>
+                <Link href="/perfil">Mi perfil</Link>
               </li>
               <li>
                 <a>Ajustes</a>
