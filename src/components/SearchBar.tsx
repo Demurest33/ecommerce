@@ -43,9 +43,9 @@ export default function SearchBar() {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            className="grow"
+            className="grow "
             name="search"
-            placeholder="Busca en nuestro catálogo"
+            placeholder="Explora nuestro catálogo"
           />
         </form>
         {/* <kbd className="kbd kbd-sm">⌘</kbd>

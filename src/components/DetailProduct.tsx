@@ -1,5 +1,5 @@
 import { Product } from "@/types/Product";
-
+import Link from "next/link";
 interface Props {
   product: Product;
 }
@@ -13,7 +13,13 @@ export default function DetailProduct({ product }: Props) {
       <div className="card-body">
         <div className="h-full justify-between w-full p-8 ">
           <div className="flex flex-col mb-20">
-            <h2 className="card-title">{product.name}</h2>
+            {product.stock > 0 ? (
+              <h2 className="card-title">{product.name}</h2>
+            ) : (
+              <h2 className="card-title text-error">
+                {product.name} - Sin stock
+              </h2>
+            )}
             <p>{product.description}</p>
           </div>
 
@@ -31,7 +37,9 @@ export default function DetailProduct({ product }: Props) {
 
         <div className="card-actions justify-end">
           {product.stock > 0 ? (
-            <button className="btn btn-primary">Comprar</button>
+            <Link href={`/carrito/${product.id}`}>
+              <button className="btn btn-primary">Comprar ahora</button>
+            </Link>
           ) : (
             <button className="btn btn-primary" disabled>
               Sin stock
