@@ -2,12 +2,20 @@
 import { useUserStore } from "../services/store/userStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { User } from "@/types/User";
+import { User, Role } from "@/types/User";
+import { Product } from "@/types/Product";
+import { io, Socket } from "socket.io-client";
+
+import { getUsers } from "../services/usersSercice";
+import { getProducts } from "../services/productsService";
 
 export default function Dashboard() {
   const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
   const [user, setLoggedUser] = useState<User | null>(null);
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     async function getUserFromCookie() {
@@ -16,6 +24,10 @@ export default function Dashboard() {
         const user: User = await res.json();
         setUser(user); // Guardamos el usuario en el estado global
         setLoggedUser(user);
+
+        if (user.role == "USER") {
+          router.push("/");
+        }
       } else {
         router.push("/login");
       }
@@ -25,10 +37,36 @@ export default function Dashboard() {
   }, [setUser]);
 
   useEffect(() => {
-    if (user?.role == "USER") {
-      router.push("/");
-    }
-  }, [user?.role]);
+    // get users only clients
+    getUsers({ roles: [Role.USER] }).then((users) => {
+      setUsers(users as User[]);
+    });
+
+    getProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080");
+
+    socket.on("connect", () => {
+      console.log("Conectado al servidor de WebSockets");
+    });
+
+    socket.on("users", (users: User[]) => {
+      const clients = users.filter((user) => user.role === Role.USER);
+      setUsers(clients);
+    });
+
+    socket.on("products", (products: Product[]) => {
+      setProducts(products);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -37,8 +75,8 @@ export default function Dashboard() {
       </p>
 
       <p>
-        Aqui va a ir un resumen de los usuarios conectados, cantidad de
-        productos, cantidad de pedidos, etc
+        Bienvenido a la página de administración. Aquí podrás gestionar los
+        usuarios, productos y pedidos de la tienda.
       </p>
 
       <div className="stats shadow">
@@ -58,9 +96,9 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">Downloads</div>
-          <div className="stat-value">31K</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
+          <div className="stat-title">Usuarios</div>
+          <div className="stat-value">{users.length}</div>
+          <div className="stat-desc">Total de clientes</div>
         </div>
 
         <div className="stat">
@@ -79,9 +117,9 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">New Users</div>
-          <div className="stat-value">4,200</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
+          <div className="stat-title">Inventario</div>
+          <div className="stat-value">{products.length}</div>
+          <div className="stat-desc">Total de productos</div>
         </div>
 
         <div className="stat">
@@ -100,9 +138,9 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">New Registers</div>
+          <div className="stat-title">Pedidos</div>
           <div className="stat-value">1,200</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
+          <div className="stat-desc">Total de pedidos</div>
         </div>
       </div>
     </>

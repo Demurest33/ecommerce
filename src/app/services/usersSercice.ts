@@ -1,7 +1,7 @@
-import { User, Usersdata } from "@/types/User";
+import { User, Usersdata, Role } from "@/types/User";
 
 interface UserServiceOptions {
-  roles?: string[]; // Parámetros opcionales para roles
+  roles?: Role[];
 }
 
 export async function getUsers(

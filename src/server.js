@@ -19,6 +19,13 @@ io.on("connection", async (socket) => {
     io.emit("users", users);
   });
 
+  socket.on("product-updated", async () => {
+    //obtener todos los productos
+    const products = await prisma.product.findMany();
+    // Emitir la lista de productos a todos los clientes conectados
+    io.emit("products", products);
+  });
+
   socket.on("disconnect", (socket) => {
     console.log("User disconnected");
   });

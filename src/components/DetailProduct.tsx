@@ -11,10 +11,32 @@ export default function DetailProduct({ product }: Props) {
         <img src={product.image} alt="Album" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{product.name}</h2>
-        <p>{product.description}</p>
+        <div className="h-full justify-between w-full p-8 ">
+          <div className="flex flex-col mb-20">
+            <h2 className="card-title">{product.name}</h2>
+            <p>{product.description}</p>
+          </div>
+
+          <div className="flex ">
+            <div className="card-actions">
+              <span className="badge-lg rounded-badge badge-primary">
+                <p className="text-xl ">${product.price}</p>
+              </span>
+              <span className="badge-lg rounded-lg badge-secondary">
+                Stock: {product.stock}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Comprar</button>
+          {product.stock > 0 ? (
+            <button className="btn btn-primary">Comprar</button>
+          ) : (
+            <button className="btn btn-primary" disabled>
+              Sin stock
+            </button>
+          )}
         </div>
       </div>
     </div>

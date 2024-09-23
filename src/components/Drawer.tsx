@@ -48,7 +48,7 @@ export default function Drawer() {
                   </svg>
                 </label>
               </div>
-              <div className="mx-2 flex-1 px-2">Navbar Title</div>
+              <div className="mx-2 flex-1 px-2">TiendaCalazans</div>
               <div className="hidden flex-none lg:block">
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
@@ -70,13 +70,20 @@ export default function Drawer() {
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <ul className="menu bg-base-200 min-h-full w-80 p-4">
-              {/* Sidebar content here */}
-              <li>
-                <a>Sidebar Item 1</a>
+            <ul className="menu bg-base-200 min-h-full w-80 p-4 gap-2">
+              <li className="border-2 rounded-md bg-slate-700 text-white">
+                <Link href="/dashboard">Dashboard</Link>
               </li>
-              <li>
-                <a>Sidebar Item 2</a>
+              <li className="border-2 rounded-md bg-base-300">
+                <Link href="/dashboard/usuarios">Usuarios</Link>
+              </li>
+
+              <li className="border-2 rounded-md bg-base-300">
+                <Link href="/dashboard/productos">Productos</Link>
+              </li>
+
+              <li className="bg-red-100 hover:bg-red-200 rounded-md">
+                <button onClick={() => handleLogout()}>Cerrar sesión</button>
               </li>
             </ul>
           </div>
@@ -89,11 +96,21 @@ export default function Drawer() {
           className="drawer-overlay"
         ></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-2">
+          <li className="border-2 rounded-md bg-slate-700 text-white">
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
           <li className="border-2 rounded-md bg-base-300">
             <Link href="/dashboard/usuarios">Usuarios</Link>
           </li>
 
-          {/* Sidebar content here */}
+          <li className="border-2 rounded-md bg-base-300">
+            <Link href="/dashboard/productos">Productos</Link>
+          </li>
+
+          <li className="border-2 rounded-md bg-base-300">
+            <Link href="/">Página principal</Link>
+          </li>
+
           <li className="bg-red-100 hover:bg-red-200 rounded-md">
             <button onClick={() => handleLogout()}>Cerrar sesión</button>
           </li>

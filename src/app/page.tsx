@@ -7,12 +7,11 @@ import { useState, useEffect } from "react";
 import ProductComponent from "@/components/Product";
 import useSocket from "@/app/services/useSocket";
 
+import { io, Socket } from "socket.io-client";
+
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-
-  // WebSocket
-  const socket = useSocket();
-  const [message, setMessage] = useState("");
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -31,6 +30,23 @@ export default function Home() {
     }
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080");
+    setSocket(socket);
+
+    socket.on("connect", () => {
+      console.log("Conectado al servidor de WebSockets");
+    });
+
+    socket.on("products", (products: Product[]) => {
+      setProducts(products);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (

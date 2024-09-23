@@ -9,13 +9,12 @@ export default function PageUsuarios() {
   const [admins, setAdmins] = useState<User[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [socket, setSocket] = useState<Socket>();
-  const [connectedUsers, setConnectedUsers] = useState(0);
   let totalUsers = users?.length + admins?.length;
 
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const usersData = await getUsers({ roles: ["ADMIN", "USER"] });
+        const usersData = await getUsers({ roles: [Role.ADMIN, Role.USER] });
         const { admins, users } = usersData as Usersdata;
         setAdmins(admins);
         setUsers(users);
@@ -35,10 +34,6 @@ export default function PageUsuarios() {
       console.log("Conectado al servidor de WebSockets");
     });
 
-    socket.on("active-users", (clients: number) => {
-      setConnectedUsers(clients);
-    });
-
     //cuando se conecta el cliente, se emite un evento para obtener los usuarios
     socket.on("users", (users: User[]) => {
       const admins = users.filter((user) => user.role === Role.ADMIN);
@@ -56,7 +51,9 @@ export default function PageUsuarios() {
 
   return (
     <>
-      <h1 className="text-5xl font-semibold">Gestión de usuarios</h1>
+      <h1 className="text-5xl font-semibold font-[family-name:var(--font-geist-mono)]">
+        Gestión de usuarios
+      </h1>
 
       <div className="flex">
         <div className="stats stats-vertical lg:stats-horizontal shadow max-w-lg w-full my-6">
