@@ -1,21 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
-  // Leer el cuerpo de la solicitud como URL-encoded
-  const formData = await request.formData();
-  const name = formData.get("username")?.toString() || "";
-  const email = formData.get("email")?.toString() || "";
-  const password = formData.get("password")?.toString() || "";
-  const confirmPassword = formData.get("confirm-password")?.toString() || "";
+  const { email, password, name, confirmPassword } = await request.json();
 
   if (!email || !password || !name || !confirmPassword) {
-    return redirect("/register?error=fieldsrequired");
+    return NextResponse.redirect(new URL("/register", request.url));
   }
 
   if (password !== confirmPassword) {
-    return redirect("/register?error=passwordmismatch");
+    return NextResponse.redirect(new URL("/register", request.url));
   }
 
   //verificar si el usuario ya existe
@@ -39,5 +35,5 @@ export async function POST(request: Request) {
     },
   });
 
-  redirect("/login?success=registered");
+  return NextResponse.redirect(new URL("/login", request.url));
 }

@@ -5,15 +5,21 @@ const io = require("socket.io")(8080, {
   },
 });
 
-io.on("connection", (socket) => {
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+io.on("connection", async (socket) => {
   console.log("User connected");
 
-  socket.on("message", (message) => {
-    console.log(message);
-    io.emit("message", message);
+  //cuando se actualiza un usuario se obtienen todos los usuarios y se emiten a todos los clientes
+  socket.on("user-updated", async () => {
+    //obtener todos los usuarios
+    const users = await prisma.user.findMany();
+    // Emitir la lista de usuarios a todos los clientes conectados
+    io.emit("users", users);
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (socket) => {
     console.log("User disconnected");
   });
 });

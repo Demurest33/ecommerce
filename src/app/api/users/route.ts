@@ -48,12 +48,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const formData = await request.formData();
-  const name = formData.get("username")?.toString() || "";
-  const email = formData.get("email")?.toString() || "";
-  const password = formData.get("password")?.toString() || "";
-  const role = formData.get("role")?.toString() || "";
-  const id = parseInt(formData.get("id")?.toString() || ""); //se nos podria rompert todo si nos pasan
+  const { id, name, email, role } = await request.json();
 
   try {
     if (id) {
@@ -66,9 +61,11 @@ export async function POST(request: Request) {
         },
       });
 
-      const url = new URL("/dashboard/usuarios", request.url);
+      // const url = new URL("/dashboard/usuarios", request.url);
 
-      return NextResponse.redirect(url);
+      // return NextResponse.redirect(url);
+
+      return NextResponse.json(user, { status: 200 });
     }
   } catch (error) {
     return NextResponse.json(
@@ -86,9 +83,10 @@ export async function DELETE(request: Request) {
       where: { id },
     });
 
-    const url = new URL("/dashboard/usuarios", request.url);
-
-    return NextResponse.redirect(url);
+    return NextResponse.json(
+      { message: "Usuario eliminado exitosamente." },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "Error al eliminar el usuario." },

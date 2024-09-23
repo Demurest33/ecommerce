@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { User, Role } from "@/types/User";
 import ModalUsers from "./ModalUsers";
 import ModalDeleteUser from "./ModalDelete";
+import { Socket } from "socket.io-client";
 
 interface TableProps {
   admins: User[];

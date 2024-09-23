@@ -1,12 +1,52 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { Socket } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
 export default function Register() {
+  const [socket, setSocket] = useState<Socket>();
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080");
+    setSocket(socket);
+
+    socket.on("connect", () => {
+      console.log("Conectado al servidor de WebSockets");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      alert("Usuario registrado exitosamente");
+      if (socket) {
+        socket.emit("user-updated");
+      }
+    } else {
+      alert("Error al registrar el usuario");
+    }
+  };
+
   return (
     <div className=" grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
-          // className="dark:invert"
-          // src="https://nextjs.org/icons/next.svg"
           src="https://www.ucc.mx/wp-content/themes/ucc_site/public/images/xlogo.svg"
           alt="Next.js logo"
           width={300}
@@ -19,6 +59,7 @@ export default function Register() {
           method="POST"
           action="/api/auth/register"
           className="flex flex-col p-8 gap-3 rounded-md shadow-xl border-t-2"
+          onSubmit={handleSubmit}
         >
           <h1 className="text-2xl font-semibold font-[family-name:var(--font-geist-mono)] mx-auto mb-4">
             Registro de usuario
@@ -37,7 +78,7 @@ export default function Register() {
               required
               type="text"
               className="grow"
-              name="username"
+              name="name"
               placeholder="Nombre"
             />
           </label>
