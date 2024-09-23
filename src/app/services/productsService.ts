@@ -26,3 +26,19 @@ export async function getProductById(id: string): Promise<Product> {
   const product: Product = await res.json();
   return product;
 }
+
+export async function getProductsByName(name: string): Promise<Product[]> {
+  const res = await fetch(`http://localhost:3000/api/products`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+
+  const products: Product[] = await res.json();
+
+  return products.filter((product) =>
+    product.name.toLowerCase().includes(name.toLowerCase())
+  );
+}
