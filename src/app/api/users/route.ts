@@ -161,7 +161,7 @@ export async function PUT(request: Request) {
         },
       });
 
-      let response = NextResponse.json(updatedUser, { status: 200 });
+      return NextResponse.json(updatedUser, { status: 200 });
     } catch (error) {
       return NextResponse.json(
         { error: "Error al actualizar el usuario2." },
