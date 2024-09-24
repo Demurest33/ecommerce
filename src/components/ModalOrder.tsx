@@ -9,16 +9,18 @@ export default function ModalOrder({ order }: { order: Order }) {
 
   useEffect(() => {
     const socket = io("http://localhost:8080");
+
+    setSocket(socket);
     socket.on("connect", () => {
       console.log("Conectado al servidor de WebSockets");
     });
 
-    setSocket(socket);
+    
 
     socket.on("orders", (orders: Order[]) => {
       const updatedOrder = orders.find((o) => o.id === order.id);
       if (updatedOrder) {
-        setStatus(updatedOrder.status);
+        order = updatedOrder;
       }
     });
 

@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Order } from "@/types/Order";
-import { useRouter } from "next/navigation";
-import OrderComponent from "@/components/Order";
+import { io, Socket } from "socket.io-client";
 import ModalOrder from "@/components/ModalOrder";
 
 export default function PedidosUsuarios() {
   const [pedidos, setPedidos] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
     //otener los pedidos de todos los usuarios
@@ -24,6 +24,22 @@ export default function PedidosUsuarios() {
     }
 
     getPedidos();
+  }, []);
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080");
+    setSocket(socket);
+
+    socket.on("orders", (data: Order[]) => {
+      setPedidos(data);
+    });
+    
+
+    return () => {
+      socket?.disconnect();
+    };
+
+
   }, []);
 
   return (
