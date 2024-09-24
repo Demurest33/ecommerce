@@ -11,5 +11,5 @@ export type Order = {
 export enum OrderStatus {
   PENDING = "pending",
   COMPLETED = "completed",
-  CANCELED = "canceled",
+  ONGOING = "ongoing",
 }

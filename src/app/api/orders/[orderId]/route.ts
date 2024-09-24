@@ -32,3 +32,29 @@ export async function GET(
     );
   }
 }
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: { orderId: string } }
+) {
+  const orderId = parseInt(params.orderId);
+  const { status } = await request.json();
+
+  if (isNaN(orderId) || !status) {
+    return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+  }
+
+  try {
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: { status },
+    });
+
+    return NextResponse.json({ order: updatedOrder });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to update order" },
+      { status: 500 }
+    );
+  }
+}

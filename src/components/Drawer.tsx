@@ -108,6 +108,10 @@ export default function Drawer() {
           </li>
 
           <li className="border-2 rounded-md bg-base-300">
+            <Link href="/dashboard/pedidos">Pedidos</Link>
+          </li>
+
+          <li className="border-2 rounded-md bg-base-300">
             <Link href="/">Página principal</Link>
           </li>
 
