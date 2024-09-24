@@ -1,28 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Exámen parcial (SOA)
 
-## Getting Started
+## Configuración e iniciar el proyecto
+Comandos en la ríz del proyecto.
 
-First, run websocket server:
+Instalamos dependencias
+
+```bash
+npm install
+```
+
+Ejecutamos el proyecto:
+
+```bash
+npm run dev
+```
+
+En otra terminal ejecutar el servidor WS:
 
 ```bash
 cd src
 node server.js
 ```
 
-Then, run the development server:
+Abrir [http://localhost:3000](http://localhost:3000) 
 
-```bash
-npm run dev
-```
+## Servicios
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Implementación de los siguientes servicios usando webSockets:
 
-## Tareas pendientes
-
-To learn more about Next.js, take a look at the following resources:
-
- - Editar perfil (para poner la dirección del usuario)
- - Carrito
- - Completar compra (hacer pedido)
- - Gestión de pedidos
- - Ver estado del pedido(que se actualice cada 10 seg)
+ - Servicio de Gestión de usuarios
+ - Servicio de Gestión de productos
+ - Servicio de Gestión de pedidos
