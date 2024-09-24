@@ -19,7 +19,7 @@ export default function Drawer() {
   };
 
   return (
-    <div className="drawer lg:drawer-open lg:flex lg:flex-1">
+    <div className="drawer lg:drawer-open lg:flex lg:flex-1 z-50">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center">
         <div className="drawer lg:hidden">

@@ -93,7 +93,7 @@ export default function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link href="/pedidos">Mis pedidos</Link>
+            <Link href="/mispedidos">Mis pedidos</Link>
           </li>
           <li>
             <Link href="/perfil">Mi perfil</Link>
