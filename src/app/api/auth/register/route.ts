@@ -7,11 +7,11 @@ export async function POST(request: Request) {
   const { email, password, name, confirmPassword } = await request.json();
 
   if (!email || !password || !name || !confirmPassword) {
-    return NextResponse.redirect(new URL("/register", request.url));
+    return NextResponse.json({ error: "Todos los campos son requeridos" });
   }
 
   if (password !== confirmPassword) {
-    return NextResponse.redirect(new URL("/register", request.url));
+    return NextResponse.json({ error: "Las contraseñas no coinciden" });
   }
 
   //verificar si el usuario ya existe
@@ -35,5 +35,9 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.redirect(new URL("/login", request.url));
+  if (user) {
+    return NextResponse.json(user);
+  } else {
+    return NextResponse.json({ error: "Error al registrar el usuario" });
+  }
 }

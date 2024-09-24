@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { redirect } from "next/navigation";
 
 export default function Register() {
   const [socket, setSocket] = useState<Socket>();
@@ -25,6 +26,7 @@ export default function Register() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
+
     const res = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -33,13 +35,19 @@ export default function Register() {
       },
     });
 
-    if (res.ok) {
-      alert("Usuario registrado exitosamente");
-      if (socket) {
-        socket.emit("user-updated");
-      }
+    const json = await res.json();
+    console.log(json);
+
+    if (json.error) {
+      alert(json.error);
     } else {
-      alert("Error al registrar el usuario");
+      if (socket) {
+        socket.emit("user-updated", json);
+      }
+
+      alert("Usuario registrado correctamente");
+
+      redirect("/login");
     }
   };
 
@@ -141,7 +149,7 @@ export default function Register() {
               required
               type="password"
               className="grow"
-              name="confirm-password"
+              name="confirmPassword"
               placeholder="Confirmar contraseña"
             />
           </label>
