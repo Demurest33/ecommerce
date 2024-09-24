@@ -30,7 +30,7 @@ model User {
   email    String   @unique
   password String
   name     String
-   orders    Order[] 
+  orders    Order[]
   role     String   @default("USER")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -38,7 +38,7 @@ model User {
 
 model Order {
   id        Int      @id @default(autoincrement())
-  userId    Int       
+  userId    Int      
   user     User     @relation(fields: [userId], references: [id])
   total     Float
   status    String   @default("PENDING")

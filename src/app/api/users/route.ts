@@ -94,3 +94,79 @@ export async function DELETE(request: Request) {
     );
   }
 }
+
+export async function PUT(request: Request) {
+  let { id, name, email, currentPassword, newPassword, confirmPassword } =
+    await request.json();
+
+  // validar que el id sea un numero
+
+  id = parseInt(id);
+
+  if (isNaN(id)) {
+    return NextResponse.json(
+      { error: "El ID debe ser un número." },
+      { status: 400 }
+    );
+  }
+
+  if (currentPassword && newPassword && confirmPassword) {
+    // Comprobar que la contraseña actual es correcta
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (user?.password !== currentPassword) {
+      return NextResponse.json(
+        { error: "La contraseña actual no es correcta." },
+        { status: 400 }
+      );
+    }
+
+    // Comprobar que las contraseñas nuevas coinciden
+    if (newPassword !== confirmPassword) {
+      return NextResponse.json(
+        { error: "Las contraseñas no coinciden." },
+        { status: 400 }
+      );
+    }
+
+    // Actualizar todo el usuario junto con la contraseña
+
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data: {
+          name,
+          email,
+          password: newPassword,
+        },
+      });
+
+      return NextResponse.json(updatedUser, { status: 200 });
+    } catch (error) {
+      return NextResponse.json(
+        { error: "Error al actualizar el usuario1." },
+        { status: 500 }
+      );
+    }
+  } else {
+    // Actualizar solo los datos del usuario
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data: {
+          name,
+          email,
+        },
+      });
+
+      let response = NextResponse.json(updatedUser, { status: 200 });
+    } catch (error) {
+      return NextResponse.json(
+        { error: "Error al actualizar el usuario2." },
+        { status: 500 }
+      );
+    }
+  }
+}
