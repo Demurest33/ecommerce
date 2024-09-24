@@ -4,11 +4,12 @@ import { Order } from "@/types/Order";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/User";
 import { useUserStore } from "@/app/services/store/userStore";
+import OrderComponent from "@/components/Order";
 
 export default function MisPedidos() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const setUser = useUserStore((state) => state.setUser);
-  const [misPedidos, setMisPedidos] = useState([]);
+  const [misPedidos, setMisPedidos] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -47,14 +48,9 @@ export default function MisPedidos() {
         <div>Loading...</div>
       ) : (
         <div>
-          <h1>Mis pedidos {loggedUser?.name}</h1>
-          <ul>
+          <ul className="flex flex-wrap justify-center gap-14">
             {misPedidos.map((pedido: Order) => (
-              <li key={pedido.id}>
-                <p>Id: {pedido.id}</p>
-                <p>Total: {pedido.total}</p>
-                <p>Estado: {pedido.status}</p>
-              </li>
+              <OrderComponent key={pedido.id} order={pedido} />
             ))}
           </ul>
         </div>

@@ -26,6 +26,11 @@ io.on("connection", async (socket) => {
     io.emit("products", products);
   });
 
+  socket.on("order-updated", async () => {
+    const orders = await prisma.order.findMany();
+    io.emit("orders", orders);
+  });
+
   socket.on("disconnect", (socket) => {
     console.log("User disconnected");
   });
