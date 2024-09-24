@@ -61,23 +61,18 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
+                    <li>
+            <Link href="/mispedidos">Mis pedidos</Link>
+          </li>
+          <li>
+            <Link href="/perfil">Mi perfil</Link>
+          </li>
+
+          {user?.role === "ADMIN" && (
             <li>
-              <a>Item 1</a>
+              <Link href="/dashboard">Dashboard</Link>
             </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+          )}
           </ul>
         </div>
         {/* <a className="btn btn-ghost text-xl">TiendaCalazans</a> */}

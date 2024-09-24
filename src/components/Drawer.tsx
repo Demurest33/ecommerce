@@ -82,6 +82,14 @@ export default function Drawer() {
                 <Link href="/dashboard/productos">Productos</Link>
               </li>
 
+              <li className="border-2 rounded-md bg-base-300">
+            <Link href="/dashboard/pedidos">Pedidos</Link>
+          </li>
+
+          <li className="border-2 rounded-md bg-base-300">
+            <Link href="/">Página principal</Link>
+          </li>
+
               <li className="bg-red-100 hover:bg-red-200 rounded-md">
                 <button onClick={() => handleLogout()}>Cerrar sesión</button>
               </li>

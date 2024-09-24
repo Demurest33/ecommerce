@@ -27,6 +27,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("order-updated", async () => {
+    console.log("order-updated");
     const orders = await prisma.order.findMany();
     io.emit("orders", orders);
   });
