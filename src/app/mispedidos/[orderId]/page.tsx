@@ -62,6 +62,8 @@ export default function MisPedidos({ params }: { params: Params }) {
     setSocket(socket);
 
     socket.on("orders", (orders: Order[]) => {
+
+      console.log(orders, params.orderId);
       const thisOrder = orders.find((o) => o.id === parseInt(params.orderId));
 
       if (thisOrder) {
@@ -78,7 +80,7 @@ export default function MisPedidos({ params }: { params: Params }) {
     return () => {
       socket.disconnect();
     };
-  });
+  }, []);
 
   return (
     <>
